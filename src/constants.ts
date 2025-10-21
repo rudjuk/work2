@@ -13,7 +13,7 @@ export type Priority = z.infer<typeof PriorityZ>;
 
 // Схема для задавдань
 const schema = z.object({
-  id: z.union([z.number(), z.string()]),
+  id: z.union([z.string()]),
   title: z.string(),
   description: z.string().default(''),
   createdAt: z.union([z.date(), z.string()]),
