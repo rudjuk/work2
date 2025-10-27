@@ -22,8 +22,6 @@ console.log(TaskApi.getTask("0100"));
 // Пошук по цифрі
 console.log("===> Пошук по строці '5':");
 console.log(TaskApi.getTask("5"));
-console.log("===> Пошук по цифрі 5:");
-console.log(TaskApi.getTask(5));
 
 
 // Створення нового завдання
@@ -47,10 +45,10 @@ console.log(Task.myTasks);
 console.log('Зміна завдання:');
 newTask['title']='Змінене завдання';
 TaskApi.updateTask(newTask);
-console.log(TaskApi.getTask(11));
+console.log(TaskApi.getTask("11"));
 
 // Видалення завдання
-TaskApi.delTask(11);
+TaskApi.delTask("11");
 TaskApi.delTask("10-todo");
 console.log("\nВидалення завдання:");
 console.log(Task.myTasks);
@@ -86,12 +84,12 @@ let isdedline=TaskApi.checkTask('01');
 console.log("'01': "+isdedline);
 
 // Перевірка дедлайну, коли вказуємо цифровий параметр
-isdedline=TaskApi.checkTask(5);
+isdedline=TaskApi.checkTask("5");
 console.log("5: "+isdedline);
 
 // Перевірка дддлайну не існуючого елекменту
 try {
-  isdedline=TaskApi.checkTask(9);
+  isdedline=TaskApi.checkTask("9");
   console.log("9: "+isdedline);
  } catch (err) {
   if (err instanceof Error) {

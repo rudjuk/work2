@@ -1,4 +1,4 @@
-import * as Task from './dto/Task'
+import {myTasks, Task, Staus, Priority} from './dto/Task'
 
 
 /////////////////////////////////
@@ -6,12 +6,16 @@ import * as Task from './dto/Task'
 /////////////////////////////////
 
 // Конвертація в дату
-const toDate = (d?: string | Date) =>
-  d == null ? undefined : (d instanceof Date ? d : new Date(d));
+function toDate(d?: string | Date): Date | undefined {
+  if (!d) {
+    return undefined;
+  }
+  return d instanceof Date ? d : new Date(d);
+}
 
 // Пошук по індексу
-const findIndexById = (id: number | string) =>
-  Task.myTasks.findIndex(t => String(t.id) === String(id));
+const findIndexById = (id: string) =>
+  myTasks.findIndex(t => String(t.id) === String(id));
 
 
 /////////////////////////////////
@@ -20,57 +24,57 @@ const findIndexById = (id: number | string) =>
 
 
 // Отримання деталей завдання за вказаним id
-export function getTask(id: number | string){
-  return Task.myTasks.find(t => String(t.id) === String(id));
+export function getTask(id: string){
+  return myTasks.find(t => String(t.id) === String(id));
 }
 
 
 // Створення нового завдання
-export function newTask(mytask: Task.Task){
+export function newTask(mytask: Task){
   if (getTask(mytask.id)) {
     throw new Error(`Task with id "${mytask.id}" already exists`);
   }
   // нормалізуємо дати
   const createdAt = toDate(mytask.createdAt) ?? new Date();
   const deadline  = toDate(mytask.deadline);
-  const task: Task.Task = { ...mytask, createdAt, deadline };
-  Task.myTasks.push(task);
+  const task: Task = { ...mytask, createdAt, deadline };
+  myTasks.push(task);
   return task;
 }
 
 
 // Апдейту деталей завдання
-export function updateTask(myTask: Task.Task){
+export function updateTask(myTask: Task){
   const i = findIndexById(myTask.id);
   if (i === -1) throw new Error(`Task with id "${myTask.id}" not found`);
-  const current = Task.myTasks[i];
-  const updated: Task.Task = {
+  const current = myTasks[i];
+  const updated: Task = {
     ...current,
     ...myTask,
     createdAt: toDate(myTask.createdAt) ?? toDate(current.createdAt) ?? new Date(),
     deadline: toDate(myTask.deadline) ?? toDate(current.deadline),
   };
-  Task.myTasks[i] = updated;
+  myTasks[i] = updated;
   return updated;
 }  
 
 
 // Видалення завдання
-export function delTask(id: number | string){
+export function delTask(id: string){
   const i = findIndexById(id);
   if (i === -1) return false;
-  Task.myTasks.splice(i, 1);
+  myTasks.splice(i, 1);
   return true;
 }
 
 // Фільтрація завдань за статусом, датою створення та пріоритетом;
 export function filterTask(
-  statFilter?: Task.Staus,
+  statFilter?: Staus,
   dateFilter?: string | Date,
-  priorityFilter?: Task.Priority
-): Task.Task[] {
+  priorityFilter?: Priority
+): Task[] {
   const byDate = toDate(dateFilter);
-  return Task.myTasks.filter(t => {
+  return myTasks.filter(t => {
     const okStatus = statFilter ? t.status === statFilter : true;
     const okPriority = priorityFilter ? t.priority === priorityFilter : true;
     const created = toDate(t.createdAt);
@@ -85,7 +89,7 @@ export function filterTask(
 
 
 // Перевірка, чи завершено завдання до дедлайну
-export function checkTask(id: number | string): boolean {
+export function checkTask(id: string): boolean {
   const t = getTask(id);
   if (!t) throw new Error(`Task with id "${id}" not found`);
   if (t.status !== 'done') return false;
