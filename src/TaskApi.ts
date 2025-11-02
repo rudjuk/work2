@@ -1,4 +1,5 @@
-import {myTasks, Task, Staus, Priority} from './dto/Task'
+import {myTasks, Staus, Priority} from './dto/Task'
+import {Task, TaskInput} from './constants'
 
 
 /////////////////////////////////

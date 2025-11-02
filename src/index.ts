@@ -4,14 +4,15 @@
 console.log("\nПочаток програми");
 
 import { parsedTask } from './constants'
-import * as Task from './dto/Task'
+import {myTasks, Staus, Priority} from './dto/Task'
+import {Task, TaskInput, TaskSchema} from './constants'
 import * as TaskApi from './TaskApi'
 
 // Перевіряємо, як завантажився JSON в масив
 console.log(parsedTask);
 
 // Вставляю в мої завдання масив, який прочитаний з JSON-файлу
-Task.myTasks.push(...parsedTask);
+myTasks.push(...parsedTask);
 
 // Пошук по рядку
 console.log("===> Пошук по строці '01':");
@@ -27,7 +28,7 @@ console.log(TaskApi.getTask("5"));
 
 
 // Створення нового завдання
-const newTask: Task.Task = { 
+const newTask: Task = TaskSchema.parse({ 
     id: '11',  
     title: 'Нове завдання',  
     description: 'Додавання нового завдання',  
@@ -35,12 +36,12 @@ const newTask: Task.Task = {
     status: 'todo',   
     priority: 'low',  
     deadline: '30.01.2026'
-  };
+  });
 
 
-Task.myTasks.push(newTask);
+myTasks.push(newTask);
 
-console.log(Task.myTasks);
+console.log(myTasks);
 
 
 // Апдейту деталей завдання
@@ -53,7 +54,7 @@ console.log(TaskApi.getTask("11"));
 TaskApi.delTask("11");
 TaskApi.delTask("10-todo");
 console.log("\nВидалення завдання:");
-console.log(Task.myTasks);
+console.log(myTasks);
 
 
 // Фільтрація завдань за статусом, датою створення та пріоритетом;
