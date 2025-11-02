@@ -15,7 +15,7 @@ function toDate(d?: string | Date): Date | undefined {
 
 // Пошук по індексу
 const findIndexById = (id: string) =>
-  myTasks.findIndex(t => String(t.id) === String(id));
+  myTasks.findIndex(t => t.id === id);
 
 
 /////////////////////////////////
@@ -25,7 +25,7 @@ const findIndexById = (id: string) =>
 
 // Отримання деталей завдання за вказаним id
 export function getTask(id: string){
-  return myTasks.find(t => String(t.id) === String(id));
+  return myTasks.find(t => t.id === id);
 }
 
 

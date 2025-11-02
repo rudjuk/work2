@@ -12,20 +12,23 @@ export type Priority = z.infer<typeof PriorityZ>;
 
 
 // Схема для задавдань
-const schema = z.object({
+const TaskSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string().default(''),
-  createdAt: z.union([z.date(), z.string()]),
+  createdAt: z.coerce.date(), // Приймає Date | string | number  // -> Date z.union([z.date(), z.string()]),
   status: StatusZ.optional().default('todo'),
   priority: PriorityZ.optional().default('medium'),
   deadline: z.union([z.date(), z.string()]).optional().default('')
 })
 
 
-type Task = z.infer<typeof schema>
+export type Task = z.output<typeof TaskSchema>
 
-const taskSchema = z.array(schema);
+// Те, що очікує схема НА ВХОДІ (input) — корисно для DTO/form-data
+export  type TaskInput = z.input<typeof TaskSchema>;
+
+const taskSchema = z.array(TaskSchema);
 
 export const parsedTask: Task[] = taskSchema.parse(tasks);
 

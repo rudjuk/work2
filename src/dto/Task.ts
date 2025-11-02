@@ -1,9 +1,12 @@
 
+import {Task} from '../constants'
+
+
 export type Staus = 'todo' | 'in_progress' | 'done'
 
 export type Priority = 'low' | 'medium' | 'high'
 
-export type Task = {
+/*export type Task = {
   readonly id: string
   title: string
   description?: string
@@ -11,7 +14,7 @@ export type Task = {
   status?: Staus
   priority?: Priority
   deadline?: string | Date
-}
+}*/
 
 
 // Список завдань (який використовується для звернень з функцій)

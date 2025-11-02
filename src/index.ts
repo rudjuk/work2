@@ -1,3 +1,5 @@
+// Запуск: npx ts-node-dev --respawn src/index.ts
+
 
 console.log("\nПочаток програми");
 
